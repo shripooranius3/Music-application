@@ -1,0 +1,391 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Soundstage — Instruments & Bookings</title>
+<style>
+:root{
+  --bg:#f7f7f8; --accent:#d6336c; --muted:#6b6b6b; --card:#ffffff;
+  --glass: rgba(255,255,255,0.6);
+  --radius:14px;
+  --maxw:1100px;
+  font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{
+  margin:0;
+  background:linear-gradient(180deg,#111015 0%, #1f1f23 35%), var(--bg);
+  color:#111;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  padding-bottom:60px;
+}
+
+/* Container */
+.container{max-width:var(--maxw); margin:0 auto; padding:28px;}
+
+/* Header */
+.header{
+  display:flex; align-items:center; justify-content:space-between;
+  gap:16px; color:#fff; margin-bottom:28px;
+}
+.brand{display:flex; align-items:center; gap:12px}
+.logo{
+  width:56px; height:56px; border-radius:10px; overflow:hidden;
+  box-shadow:0 6px 18px rgba(0,0,0,0.6); border:2px solid rgba(255,255,255,0.06);
+}
+.brand h1{font-size:20px; margin:0; font-weight:700; letter-spacing:0.4px}
+.nav{display:flex; gap:14px; align-items:center; font-weight:600}
+.nav a{color:rgba(255,255,255,0.85); text-decoration:none; font-size:14px; padding:8px 10px; border-radius:8px}
+.nav a:hover{background:rgba(255,255,255,0.04)}
+
+/* Hero */
+.hero{
+  position:relative;
+  border-radius:18px;
+  overflow:hidden;
+  min-height:420px;
+  display:grid;
+  grid-template-columns: 1fr 420px;
+  gap:24px;
+  box-shadow:0 20px 50px rgba(0,0,0,0.6);
+  margin-bottom:28px;
+  background:linear-gradient(90deg, rgba(0,0,0,0.55), rgba(0,0,0,0.25));
+}
+.hero .media{background-image: url('/mnt/data/musicbookingdesign.jpg'); background-size:cover; background-position:center; filter:brightness(0.55) saturate(0.95); min-height:420px;}
+.hero .panel{padding:36px 32px; display:flex; flex-direction:column; justify-content:center; gap:18px; color:#fff}
+.kicker{font-size:13px; text-transform:uppercase; opacity:0.9; letter-spacing:1px}
+.headline{font-size:44px; line-height:1.02; font-weight:800; margin:0; letter-spacing:-1px}
+.lead{opacity:0.95; margin:0; color: #f3f3f3}
+.btn{
+  display:inline-block; padding:12px 18px; background:var(--accent); color:#fff; border-radius:12px; text-decoration:none; font-weight:700;
+  box-shadow:0 10px 24px rgba(214,51,108,0.12);
+}
+.actions{display:flex; gap:12px; align-items:center}
+
+/* Countdown */
+.countdown{display:flex; gap:18px; justify-content:center; margin:28px 0 40px; color:#222}
+.countdown .item{background:var(--card); padding:18px 22px; border-radius:12px; min-width:110px; text-align:center; box-shadow:0 6px 18px rgba(15,15,15,0.06)}
+.countdown .num{font-weight:800; font-size:28px}
+.countdown .label{font-size:12px; color:var(--muted)}
+
+/* Main layout */
+.grid{display:grid; grid-template-columns: 1fr 360px; gap:26px; align-items:start;}
+
+/* Product list */
+.products{display:grid; grid-template-columns: repeat(2,1fr); gap:18px}
+.card{background:var(--card); border-radius:12px; padding:14px; box-shadow:0 8px 24px rgba(15,15,15,0.06); display:flex; gap:12px; align-items:center}
+.thumb{width:110px; height:90px; border-radius:10px; overflow:hidden; flex-shrink:0; background-size:cover; background-position:center}
+.info h3{margin:0; font-size:16px}
+.price{font-weight:800; color:var(--accent); margin-top:8px}
+.card button{margin-left:auto; background:#111; color:#fff; border:none; padding:8px 10px; border-radius:10px; cursor:pointer}
+.controls{display:flex; gap:8px; margin-top:10px; align-items:center}
+.small{font-size:13px; color:var(--muted)}
+
+/* Right column */
+.side{position:sticky; top:22px; display:flex; flex-direction:column; gap:14px}
+.cart{background:linear-gradient(180deg, #fff,#fafafa); padding:14px; border-radius:12px; box-shadow:0 10px 30px rgba(0,0,0,0.06)}
+.cart h4{margin:0 0 8px 0}
+.cart .line{display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px dashed rgba(0,0,0,0.04)}
+.checkout{display:flex; justify-content:space-between; align-items:center; margin-top:12px}
+
+/* Booking form */
+.book{background:linear-gradient(180deg,#fff,#f9f9fb); padding:16px; border-radius:12px}
+label{display:block; font-size:13px; margin-bottom:6px; color:var(--muted)}
+.input, textarea, select{width:100%; padding:10px 12px; border-radius:8px; border:1px solid rgba(0,0,0,0.06); margin-bottom:10px; font-size:14px}
+.cta{background:linear-gradient(90deg,var(--accent), #ff6b8a); color:#fff; border:none; padding:12px 14px; border-radius:12px; font-weight:700; cursor:pointer; width:100%}
+
+/* Footer */
+.footer{margin-top:36px; color:#dfe3e8; text-align:center; padding:24px 12px; font-size:14px}
+
+/* Responsive */
+@media (max-width:980px){
+  .hero{grid-template-columns:1fr; min-height:360px}
+  .grid{grid-template-columns:1fr}
+  .products{grid-template-columns:1fr}
+  .nav{display:none}
+  .brand h1{font-size:18px}
+}
+</style>
+</head>
+<body>
+<header class="container header">
+  <div class="brand">
+    <div class="logo" style="background-image:url('/mnt/data/Musicaldesign.jpg'); background-size:cover"></div>
+    <div>
+      <h1>Soundstage</h1>
+      <div class="small" style="color:#dcdcdc">Instrument shop • Book live shows</div>
+    </div>
+  </div>
+  <nav class="nav">
+    <a href="#shop">Shop</a>
+    <a href="#book">Book</a>
+    <a href="#releases">Releases</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<main class="container">
+  <section class="hero" aria-label="Hero - main">
+    <div class="media" role="img" aria-hidden="true"></div>
+    <div class="panel">
+      <div class="kicker">Live performances & instrument store</div>
+      <h2 class="headline">We make music — and we bring it to your event</h2>
+      <p class="lead">Hire the artist for private events, festivals and product launches. Browse hand-picked instruments — guitars, amps and pedals — and purchase directly online.</p>
+      <div class="actions">
+        <a class="btn" id="btn-shop" href="#shop">Shop instruments</a>
+        <a class="btn" id="btn-book" href="#book" style="background:transparent; border:2px solid rgba(255,255,255,0.18)">Book the artist</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="countdown" id="countdown">
+    <div class="item"><div class="num" id="cd-days">23</div><div class="label">Days</div></div>
+    <div class="item"><div class="num" id="cd-hours">21</div><div class="label">Hours</div></div>
+    <div class="item"><div class="num" id="cd-mins">52</div><div class="label">Minutes</div></div>
+    <div class="item"><div class="num" id="cd-secs">34</div><div class="label">Seconds</div></div>
+  </div>
+
+  <section class="grid">
+    <div>
+      <h3 id="shop">Featured Instruments</h3>
+      <p class="small">Curated, stage-ready instruments with verified condition and warranty</p>
+
+      <div style="height:18px"></div>
+
+      <div class="products" id="product-list">
+        <!-- products injected by JS -->
+      </div>
+
+      <div style="height:20px"></div>
+
+      <h3 id="releases">More from the artist</h3>
+      <div class="card" style="align-items:flex-start">
+        <div style="width:110px;height:90px;border-radius:10px;background-image:url('/mnt/data/musicbookingdesign.jpg'); background-size:cover"></div>
+        <div style="flex:1">
+          <h3>New album — Live at The Foundry</h3>
+          <div class="small">Available on vinyl and streaming platforms</div>
+        </div>
+        <div style="margin-left:auto; display:flex; align-items:center; gap:8px">
+          <button onclick="alert('Preview playing...')">Preview</button>
+        </div>
+      </div>
+
+    </div>
+
+    <aside class="side">
+      <div class="cart" aria-live="polite">
+        <h4>Cart</h4>
+        <div id="cart-contents">
+          <div class="small">No items yet — add an instrument to cart.</div>
+        </div>
+        <div class="checkout">
+          <div class="small">Total</div>
+          <div id="cart-total" style="font-weight:800">$0.00</div>
+        </div>
+        <div style="height:8px"></div>
+        <button class="cta" id="btn-checkout">Checkout (mock)</button>
+      </div>
+
+      <div class="book" id="book">
+        <h4>Book the artist</h4>
+        <p class="small">Request a booking — response within 48 hours.</p>
+        <form id="booking-form" onsubmit="return false;">
+          <label for="b-name">Name</label>
+          <input id="b-name" class="input" required />
+          <label for="b-email">Email</label>
+          <input id="b-email" class="input" type="email" required />
+          <label for="b-date">Event date</label>
+          <input id="b-date" class="input" type="date" required />
+          <label for="b-type">Event type</label>
+          <select id="b-type"><option>Private party</option><option>Corporate</option><option>Festival</option><option>Other</option></select>
+          <label for="b-notes">Notes</label>
+          <textarea id="b-notes" rows="3"></textarea>
+          <button class="cta" id="btn-booksubmit">Send booking request</button>
+        </form>
+        <div id="book-status" class="small" style="margin-top:8px"></div>
+      </div>
+
+      <div class="card" style="flex-direction:column; padding:12px; text-align:center">
+        <strong>Manage inventory</strong>
+        <div class="small" style="margin-top:8px">Quick CRUD demo (stored in your browser)</div>
+        <div style="height:8px"></div>
+        <div class="controls">
+          <input id="inv-name" class="input" placeholder="Name" style="padding:8px; width:60%" />
+          <input id="inv-price" class="input" placeholder="Price" style="padding:8px; width:30%" />
+        </div>
+        <div style="display:flex; gap:8px; margin-top:6px">
+          <button onclick="addInventory()" style="flex:1" class="cta">Add instrument</button>
+          <button onclick="resetDemo()" style="flex:1; background:#efefef; color:#111">Reset</button>
+        </div>
+        <div id="inv-msg" class="small" style="margin-top:8px"></div>
+      </div>
+
+    </aside>
+  </section>
+
+  <section id="contact" style="margin-top:36px">
+    <div class="card" style="display:flex; gap:18px; align-items:center">
+      <div style="width:110px;height:90px;border-radius:10px;background-image:url('/mnt/data/Musicaldesign.jpg'); background-size:cover"></div>
+      <div style="flex:1">
+        <h3>Contact & rider</h3>
+        <div class="small">For press, bookings and wholesale enquiries: <strong>bookings@soundstage.example</strong></div>
+      </div>
+      <div style="margin-left:auto">
+        <a class="btn" href="mailto:bookings@soundstage.example">Email booking</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    © <span id="year"></span> Soundstage — Instruments • Live shows • Secure checkout (mock)
+  </footer>
+
+</main>
+
+<script>
+// --- Demo data and localStorage CRUD for products & cart ---
+const defaultProducts = [
+  {id:'g1', name:'Stratocaster — Stage', price:599, img:'/mnt/data/Musicaldesign.jpg', qty:5},
+  {id:'g2', name:'Telecaster — Vintage', price:1399, img:'/mnt/data/musicbookingdesign.jpg', qty:1},
+  {id:'g3', name:'Acoustic Pro', price:899, img:'/mnt/data/Musicaldesign.jpg', qty:3},
+  {id:'g4', name:'Bass Studio', price:749, img:'/mnt/data/musicbookingdesign.jpg', qty:2}
+];
+
+function loadProducts(){
+  const raw = localStorage.getItem('products');
+  if(raw) return JSON.parse(raw);
+  localStorage.setItem('products', JSON.stringify(defaultProducts));
+  return defaultProducts;
+}
+
+function saveProducts(products){ localStorage.setItem('products', JSON.stringify(products)); renderProducts(); }
+
+function renderProducts(){
+  const list = document.getElementById('product-list');
+  const prods = loadProducts();
+  list.innerHTML = '';
+  prods.forEach(p=>{
+    const card = document.createElement('div'); card.className='card';
+    card.innerHTML = `
+      <div class="thumb" style="background-image:url('${p.img}')"></div>
+      <div class="info">
+        <h3>${p.name}</h3>
+        <div class="small">In stock: ${p.qty}</div>
+        <div class="price">$${p.price.toFixed(2)}</div>
+      </div>
+      <div style="margin-left:auto; display:flex; flex-direction:column; gap:8px;">
+        <div style="display:flex; gap:8px">
+          <button onclick="addToCart('${p.id}')">Add to cart</button>
+          <button onclick="editPrompt('${p.id}')">Edit</button>
+        </div>
+      </div>
+    `;
+    list.appendChild(card);
+  });
+}
+
+// --- Cart logic ---
+function getCart(){ return JSON.parse(localStorage.getItem('cart')||'[]'); }
+function saveCart(c){ localStorage.setItem('cart', JSON.stringify(c)); renderCart(); }
+
+function addToCart(id){
+  const products = loadProducts();
+  const p = products.find(x=>x.id===id);
+  if(!p || p.qty<=0){ alert('Unavailable'); return; }
+  const cart = getCart();
+  const found = cart.find(x=>x.id===id);
+  if(found) found.qty++;
+  else cart.push({id:id, name:p.name, price:p.price, qty:1});
+  p.qty--; saveProducts(products); saveCart(cart);
+}
+
+function renderCart(){
+  const cdiv = document.getElementById('cart-contents');
+  const cart = getCart();
+  if(cart.length===0){ cdiv.innerHTML = '<div class="small">No items yet — add an instrument to cart.</div>'; document.getElementById('cart-total').innerText='$0.00'; return; }
+  cdiv.innerHTML = '';
+  let total = 0;
+  cart.forEach(it=>{
+    total += it.price*it.qty;
+    const ln = document.createElement('div'); ln.className='line';
+    ln.innerHTML = `<div style="flex:1">${it.name} <div class="small">x${it.qty}</div></div><div style="font-weight:700">$${(it.price*it.qty).toFixed(2)}</div>`;
+    cdiv.appendChild(ln);
+  });
+  document.getElementById('cart-total').innerText = '$' + total.toFixed(2);
+}
+
+// Checkout mock
+document.getElementById('btn-checkout').addEventListener('click', ()=>{
+  const cart = getCart();
+  if(cart.length===0){ alert('Add items'); return; }
+  alert('This is a mock checkout. In a live site integrate Stripe/PayPal.');
+  localStorage.removeItem('cart'); renderCart();
+});
+
+// Booking form
+document.getElementById('btn-booksubmit').addEventListener('click', ()=>{
+  const name = document.getElementById('b-name').value.trim();
+  const email = document.getElementById('b-email').value.trim();
+  const date = document.getElementById('b-date').value;
+  if(!name||!email||!date){ document.getElementById('book-status').innerText='Please complete required fields.'; return;}
+  const bookings = JSON.parse(localStorage.getItem('bookings')||'[]');
+  bookings.push({id:Date.now(),name,email,date,type:document.getElementById('b-type').value,notes:document.getElementById('b-notes').value});
+  localStorage.setItem('bookings', JSON.stringify(bookings));
+  document.getElementById('book-status').innerText='Booking request sent — you will receive a confirmation email (demo).';
+  document.getElementById('booking-form').reset();
+});
+
+// Inventory CRUD demo
+function addInventory(){
+  const name = document.getElementById('inv-name').value.trim();
+  const price = parseFloat(document.getElementById('inv-price').value);
+  if(!name || !price){ document.getElementById('inv-msg').innerText='Provide name and price.'; return; }
+  const prods = loadProducts();
+  const id = 'id'+Math.random().toString(36).slice(2,9);
+  prods.push({id,name,price,qty:1,img:'/mnt/data/Musicaldesign.jpg'});
+  saveProducts(prods);
+  document.getElementById('inv-msg').innerText='Instrument added.';
+  document.getElementById('inv-name').value=''; document.getElementById('inv-price').value='';
+}
+function editPrompt(id){
+  const prods = loadProducts(); const p = prods.find(x=>x.id===id);
+  const name = prompt('Edit name', p.name);
+  const price = prompt('Edit price', p.price);
+  if(name) p.name = name; if(price) p.price = parseFloat(price) || p.price;
+  saveProducts(prods); document.getElementById('inv-msg').innerText='Updated.';
+}
+function resetDemo(){ if(confirm('Reset demo data?')){ localStorage.removeItem('products'); localStorage.removeItem('cart'); localStorage.removeItem('bookings'); renderProducts(); renderCart(); document.getElementById('inv-msg').innerText='Reset.' }}
+
+// Countdown (example: next gig in 28 days)
+function startCountdown(){
+  const target = new Date(); target.setDate(target.getDate() + 28);
+  function tick(){
+    const now = new Date(); let diff = Math.max(0, target - now);
+    const days = Math.floor(diff / (1000*60*60*24)); diff -= days*(1000*60*60*24);
+    const hours = Math.floor(diff / (1000*60*60)); diff -= hours*(1000*60*60);
+    const mins = Math.floor(diff / (1000*60)); diff -= mins*(1000*60);
+    const secs = Math.floor(diff / 1000);
+    document.getElementById('cd-days').innerText = days;
+    document.getElementById('cd-hours').innerText = hours;
+    document.getElementById('cd-mins').innerText = mins;
+    document.getElementById('cd-secs').innerText = secs;
+  }
+  tick(); setInterval(tick, 1000);
+}
+
+// Boot
+document.getElementById('year').innerText = new Date().getFullYear();
+renderProducts();
+renderCart();
+startCountdown();
+
+// Small accessibility: keyboard focus visible
+document.addEventListener('keydown', e=>{
+  if(e.key==='Tab') document.body.classList.add('kbd');
+});
+</script>
+</body>
+</html>
