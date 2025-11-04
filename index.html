@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Music Shop & Booking — Demo</title>
+<style>
+:root{--bg:#0f1724;--card:#0b1220;--accent:#8bd3ff;--muted:#9aa6b2;--glass: rgba(255,255,255,0.03)}
+*{box-sizing:border-box}
+body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; margin:0; background:linear-gradient(180deg,#071029 0%, #071527 60%); color:#e6eef6;}
+.app{max-width:1100px;margin:28px auto;padding:20px}
+header{display:flex;gap:16px;align-items:center;margin-bottom:18px}
+header h1{margin:0;font-size:20px}
+.layout{display:grid;grid-template-columns:1fr 380px;gap:18px}
+.card{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 6px 18px rgba(3,8,15,0.6);}
+
+
+/* Menu list */
+.menu-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+.item{background:var(--glass);border-radius:10px;padding:10px;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:8px;transition:transform .12s}
+.item:hover{transform:translateY(-6px)}
+.item img{width:100%;height:110px;object-fit:cover;border-radius:8px}
+.item .name{font-weight:600;font-size:14px}
+.item .price{color:var(--accent);font-weight:700}
+
+
+/* Controls */
+.controls{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:12px}
+.btn{background:#0b2440;border:1px solid rgba(255,255,255,0.04);padding:8px 12px;border-radius:8px;color:var(--accent);cursor:pointer}
+.btn.secondary{background:transparent;color:var(--muted);border:1px solid rgba(255,255,255,0.03)}
+
+
+/* Cart */
+.cart-item{display:flex;gap:8px;align-items:center;padding:8px;border-bottom:1px dashed rgba(255,255,255,0.03)}
+.cart-item img{width:56px;height:40px;object-fit:cover;border-radius:6px}
+.cart-right{margin-left:auto;text-align:right}
+.cart-actions{display:flex;gap:8px;margin-top:8px}
+
+
+/* Forms */
+form input, form select, form textarea{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit}
+label{font-size:13px;color:var(--muted)}
+
+
+footer.report{margin-top:14px;background:linear-gradient(90deg, rgba(139,211,255,0.03), rgba(139,211,255,0.01));padding:10px;border-radius:10px}
+
+
+/* small screens */
+@media(max-width:900px){.layout{grid-template-columns:1fr} .app{padding:10px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+<h1>Music Shop & Booking</h1>
+<div style="margin-left:auto;color:var(--muted);font-size:13px">AUD prices • Demo (localStorage)</div>
+</header>
+
+
+<div class="layout">
+<main>
+<div class="card">
+<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+<strong>Instruments Menu</strong>
+<div class="controls">
+<button class="btn" id="openManage">Manage Menu</button>
+<button class="btn secondary" id="refreshDefault">Reset to Sample</button>
+</div>
+</div>
+
+
+<div style="margin-bottom:10px;display:flex;gap:8px">
+<input id="search" placeholder="Search instrument..." style="flex:1;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit">
+<select id="categoryFilter" style="width:160px">
+<option value="">All categories</option>
